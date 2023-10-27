@@ -1,0 +1,45 @@
+nbelyh
+Как можно использовать .NET из Javascript (React) в 2023 году
+https://habr.com/en/articles/770058/
+
+-----
+https://github.com/nbelyh/VisioWebTools
+https://learn.microsoft.com/ru-ru/aspnet/core/client-side/dotnet-interop?view=aspnetcore-7.0
+https://www.meziantou.net/using-dotnet-code-from-javascript-using-webassembly.htm
+
+-----
+dotnet workload install wasm-tools
+dotnet new console
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+
+    <!-- добавляем вот этот кусок -->
+    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WasmMainJSPath>main.js</WasmMainJSPath>
+    <!-- конец -->
+    
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+
+using System.Runtime.InteropServices.JavaScript;
+using System.Threading.Tasks;
+
+// Еще один "артефакт". Создает Main, который нуже ндля работы тулсета
+return;
+
+public partial class FileProcessor
+{
+    // Экспортируем метод
+    [JSExport]
+    internal static async Task<int> ProcessFile(byte[] file)
+    {
+		await Task.Delay(100); // эмулируем работу
+        return file.Length;
+    }
+}
